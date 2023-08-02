@@ -29,14 +29,14 @@ class MyViewModel @Inject constructor(
         _loadImageResourceResponse
 
 
-    private val _userListResponse: MutableLiveData<ApiState<UserListResponse>> = MutableLiveData()
-    var userListResponseObserver: LiveData<ApiState<UserListResponse>> = _userListResponse
+    private val _userListResponse: MutableLiveData<ApiState> = MutableLiveData()
+    var userListResponseObserver: LiveData<ApiState> = _userListResponse
 
 
-    private val _createAppUserResponse: MutableLiveData<ApiState<Unit>> = MutableLiveData()
+    /*private val _createAppUserResponse: MutableLiveData<ApiState<Unit>> = MutableLiveData()
     var _createAppUserResponseObserver: LiveData<ApiState<Unit>> =
         _createAppUserResponse
-
+*/
 
     suspend fun getUserPosts() = viewModelScope.launch {
         _loadImageResourceResponse.postValue(mainRepostiory.getUser())
@@ -50,11 +50,11 @@ class MyViewModel @Inject constructor(
 
     }
 
-    suspend fun insertUser(user: AppUsers) = viewModelScope.launch {
+ /*   suspend fun insertUser(user: AppUsers) = viewModelScope.launch {
         _createAppUserResponse.postValue(ApiState.Loading)
         delay(1000)
         _createAppUserResponse.postValue(ApiState.Success(mainRepostiory.insertUser(user)))
     }
-
+*/
 
 }

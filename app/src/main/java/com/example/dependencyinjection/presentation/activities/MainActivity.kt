@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
  */
 
         saveBtn.setOnClickListener {
-
+/*
             CoroutineScope(Dispatchers.IO).launch {
                 viewModel.insertUser(AppUsers("1", "Suda", "85912708921"))
-            }
+            }*/
         }
 
 
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        viewModel._createAppUserResponseObserver.observe(this, { res ->
+     /*   viewModel._createAppUserResponseObserver.observe(this, { res ->
 
             when (res) {
                 is ApiState.Loading -> {
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
+*/
     }
 
 
