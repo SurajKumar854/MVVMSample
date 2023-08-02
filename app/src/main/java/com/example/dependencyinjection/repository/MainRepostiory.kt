@@ -1,5 +1,6 @@
 package com.example.dependencyinjection.repository
 
+import androidx.lifecycle.LiveData
 import com.example.dependencyinjection.retrofit.networkApi.Api
 import com.example.dependencyinjection.retrofit.response.ProductPostResponse
 import com.example.dependencyinjection.retrofit.response.UserListResponse
@@ -8,7 +9,7 @@ import com.example.dependencyinjection.room.entity.AppUsers
 import javax.inject.Inject
 
 
-class MainRepostiory @Inject constructor(val api: Api, val roomDB: AppDataBase) {
+class MainRepostiory @Inject constructor(private val api: Api, private val roomDB: AppDataBase) {
 
 
     suspend fun getUser(): ProductPostResponse {
@@ -19,8 +20,12 @@ class MainRepostiory @Inject constructor(val api: Api, val roomDB: AppDataBase) 
         return api.getUsersList()
     }
 
-    suspend fun insertUser(user: AppUsers) {
+    fun insertUser(user: AppUsers) {
         roomDB.userDao().insertUser(user)
+    }
+
+    fun getUserListFromLocalDB(): LiveData<List<AppUsers>> {
+        return roomDB.userDao().getUsersList()
     }
 
 }

@@ -20,6 +20,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Random
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -53,10 +54,10 @@ class MainActivity : AppCompatActivity() {
  */
 
         saveBtn.setOnClickListener {
-/*
+
             CoroutineScope(Dispatchers.IO).launch {
-                viewModel.insertUser(AppUsers("1", "Suda", "85912708921"))
-            }*/
+                viewModel.insertUser(AppUsers((0..10).random().toString(), "Suda", "85912708921"))
+            }
         }
 
 
@@ -66,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             // viewModel.getUser1()
             viewModel.getUsersList()
+            viewModel.getUserListLocalDB()
+
         }
     }
 
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-     /*   viewModel._createAppUserResponseObserver.observe(this, { res ->
+        viewModel._createAppUserResponseObserver.observe(this, { res ->
 
             when (res) {
                 is ApiState.Loading -> {
@@ -94,11 +97,22 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is ApiState.Success -> {
-                    Toast.makeText(this, "Created", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, res.data.toString(), Toast.LENGTH_LONG).show()
+
                 }
             }
         })
-*/
+
+        viewModel.userListResponseLocalDBObserver.observe(this, { res ->
+
+
+                    showText.text = "${res.get(0).lastName}"
+                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+
+
+        })
+
+
     }
 
 
