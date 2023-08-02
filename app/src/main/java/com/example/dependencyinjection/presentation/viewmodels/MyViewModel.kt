@@ -12,6 +12,7 @@ import com.example.dependencyinjection.retrofit.networkApi.Api
 import com.example.dependencyinjection.retrofit.response.ProductPostResponse
 import com.example.dependencyinjection.retrofit.response.UserListResponse
 import com.example.dependencyinjection.retrofit.utilis.ApiState
+import com.example.dependencyinjection.room.entity.AppUsers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -32,6 +33,11 @@ class MyViewModel @Inject constructor(
     var userListResponseObserver: LiveData<ApiState<UserListResponse>> = _userListResponse
 
 
+    private val _createAppUserResponse: MutableLiveData<ApiState<Unit>> = MutableLiveData()
+    var _createAppUserResponseObserver: LiveData<ApiState<Unit>> =
+        _createAppUserResponse
+
+
     suspend fun getUserPosts() = viewModelScope.launch {
         _loadImageResourceResponse.postValue(mainRepostiory.getUser())
     }
@@ -42,6 +48,12 @@ class MyViewModel @Inject constructor(
         _userListResponse.postValue(ApiState.Success(mainRepostiory.getUserList()))
 
 
+    }
+
+    suspend fun insertUser(user: AppUsers) = viewModelScope.launch {
+        _createAppUserResponse.postValue(ApiState.Loading)
+        delay(1000)
+        _createAppUserResponse.postValue(ApiState.Success(mainRepostiory.insertUser(user)))
     }
 
 
